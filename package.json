@@ -42,6 +42,7 @@
     "test-server": "NODE_ENV=test ts-node src/index.ts"
   },
   "jest": {
+    "globalSetup": "./src/test/callSetup.js",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },

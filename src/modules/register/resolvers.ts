@@ -41,7 +41,7 @@ export const resolvers: ResolverMap = {
         password: hashedPassword
       })
       await user.save()
-      const confirmLink = createConfirmEmailLink(url, user.id, redis)
+      createConfirmEmailLink(url, user.id, redis)
       return null
     }
   }
