@@ -1,7 +1,7 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt"
 import { User } from "../../entity/User";
-import * as yup from 'yup'
+import * as yup from "yup"
 import { formatYupError } from "../../utils/formatYupError";
 import { duplicateEmail, emailTooShort, invalidEmail } from "./errorMessages";
 import { createConfirmEmailLink } from "../../utils/createConfirmEmailLink";
@@ -13,7 +13,7 @@ const schema = yup.object().shape({
 
 export const resolvers: ResolverMap = {
   Query: {
-    bye: () => 'bye'
+    bye: () => "bye"
   },
   Mutation: {
     register: async (_, args: GQL.IRegisterOnMutationArguments, { redis, url }) => {
@@ -25,12 +25,12 @@ export const resolvers: ResolverMap = {
       const { email, password } = args
       const userExists = await User.findOne({
         where: { email },
-        select: ['id']
+        select: ["id"]
       })
       if (userExists) {
         return [
           {
-            path: 'email',
+            path: "email",
             message: duplicateEmail
           }
         ]

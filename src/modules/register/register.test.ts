@@ -1,7 +1,7 @@
-import { request } from 'graphql-request'
+import { request } from "graphql-request"
 import { User } from "../../entity/User";
-import { emailTooShort, invalidEmail, passwordTooShort } from './errorMessages';
-import { createTypeormConnection } from '../../utils/createTypeormConnection';
+import { emailTooShort, invalidEmail, passwordTooShort } from "./errorMessages";
+import { createTypeormConnection } from "../../utils/createTypeormConnection";
 
 const email = "test@example.com"
 const password = "test123"
@@ -32,11 +32,11 @@ describe("User Creation", async () => {
 
     const duplicateResponse: any = await request(process.env.TEST_HOST as string, mutation(email, password))
     expect(duplicateResponse.register).toHaveLength(1)
-    expect(duplicateResponse.register[0].path).toEqual('email')
+    expect(duplicateResponse.register[0].path).toEqual("email")
   })
 
   it("catches bad emails", async () => {
-    const badEmailResponse: any = await request(process.env.TEST_HOST as string, mutation('b', password))
+    const badEmailResponse: any = await request(process.env.TEST_HOST as string, mutation("b", password))
     expect(badEmailResponse).toEqual({
       register: [
         { "message": emailTooShort, "path": "email" },
@@ -55,7 +55,7 @@ describe("User Creation", async () => {
   })
 
   it("catches bad passwords & emails", async () => {
-    const badResponse: any = await request(process.env.TEST_HOST as string, mutation('b', '12'))
+    const badResponse: any = await request(process.env.TEST_HOST as string, mutation("b", "12"))
     expect(badResponse).toEqual({
       register: [
         { "message": emailTooShort, "path": "email" },
