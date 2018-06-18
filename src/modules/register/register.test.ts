@@ -2,6 +2,7 @@ import { request } from "graphql-request"
 import { User } from "../../entity/User";
 import { emailTooShort, invalidEmail, passwordTooShort } from "./errorMessages";
 import { createTypeormConnection } from "../../utils/createTypeormConnection";
+import { Connection } from "typeorm";
 
 const email = "test@example.com"
 const password = "test123"
@@ -14,9 +15,9 @@ const mutation = (e: string, p: string) => `
     }
   }
 `
-
+let conn: Connection
 beforeAll(async () => {
-  await createTypeormConnection()
+  conn = await createTypeormConnection()
 })
 
 describe("User Creation", async () => {
@@ -64,4 +65,8 @@ describe("User Creation", async () => {
       ]
     })
   })
+})
+
+afterAll(async () => {
+  await conn.close()
 })

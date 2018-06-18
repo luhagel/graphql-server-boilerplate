@@ -1,10 +1,9 @@
-import { ResolverMap } from "../../types/graphql-utils";
-import bcrypt from "bcrypt"
+import { ResolverMap } from "../../types/graphql-utils"
 import { User } from "../../entity/User";
 import * as yup from "yup"
 import { formatYupError } from "../../utils/formatYupError";
-import { duplicateEmail, emailTooShort, invalidEmail } from "./errorMessages";
-import { createConfirmEmailLink } from "../../utils/createConfirmEmailLink";
+import { duplicateEmail, emailTooShort, invalidEmail } from "./errorMessages"
+import { createConfirmEmailLink } from "../../utils/createConfirmEmailLink"
 
 const schema = yup.object().shape({
   email: yup.string().min(3, emailTooShort).max(255).email(invalidEmail),
@@ -35,10 +34,9 @@ export const resolvers: ResolverMap = {
           }
         ]
       }
-      const hashedPassword = await bcrypt.hash(password, 10)
       const user = User.create({
         email,
-        password: hashedPassword
+        password
       })
       await user.save()
       createConfirmEmailLink(url, user.id, redis)
