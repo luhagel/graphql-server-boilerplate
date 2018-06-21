@@ -8,6 +8,7 @@ import connectRedis from "connect-redis"
 import redis from "./redis";
 import { confirmEmail } from "./routes/confirmEmail";
 import { genSchema } from "./utils/genSchema";
+import { redisSessionPrefix } from "./constants";
 
 const RedisStore = connectRedis(session)
 
@@ -18,13 +19,17 @@ export default async () => {
     context: ({ request }) => ({
       redis,
       url: `${request.protocol}://${request.hostname}`,
-      session: request.session
+      session: request.session,
+      req: request
     })
   })
 
   server.express.use(
     session({
-      store: new RedisStore({}),
+      store: new RedisStore({
+        client: redis as any,
+        prefix: redisSessionPrefix
+      }),
       name: "qid",
       secret: process.env.SESSION_SECRET || "test123",
       resave: false,

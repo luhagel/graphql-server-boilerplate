@@ -6,10 +6,17 @@ export interface ResolverMap {
   }
 }
 
+export interface Context {
+  redis: Redis,
+  url: string,
+  session: Session,
+  req: Express.Request
+}
+
 export type Resolver = (
   parent: any,
   args: any,
-  context: { redis: Redis, url: string, session: Session },
+  context: Context,
   info: any
 ) => any
 
@@ -17,7 +24,7 @@ export type GraphQLMiddlewareFunc = (
   resolverFunc: Resolver,
   parent: any,
   args: any,
-  context: { redis: Redis, url: string, session: Session },
+  context: Context,
   info: any
 ) => any
 
