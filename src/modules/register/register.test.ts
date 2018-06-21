@@ -1,4 +1,3 @@
-import { request } from "graphql-request"
 import { User } from "../../entity/User";
 import { emailTooShort, invalidEmail, passwordTooShort } from "./errorMessages";
 import { createTypeormConnection } from "../../utils/createTypeormConnection";
