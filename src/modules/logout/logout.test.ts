@@ -7,30 +7,25 @@ const email = "test@example.com"
 const password = "test123"
 
 let conn: Connection
-let user: any
 beforeAll(async () => {
   conn = await createTypeormConnection()
-  user = await User.create({
+  await User.create({
     email,
     password,
     confirmed: true
   }).save()
 })
 
-describe("Me Query", () => {
-  const client = new TestClient(process.env.TEST_HOST as string)
-
-  it("returns if not logged in", async () => {
-    const response = await client.me()
-    expect(response.data.me).toBeNull()
-  })
-  it("gets the current user", async () => {
+describe("Logout Mutation", () => {
+  it("logs out the current user", async () => {
+    const client = new TestClient(process.env.TEST_HOST as string)
     await client.login(email, password)
+    await client.me()
+    await client.logout()
+
     const response = await client.me()
-    expect(response.data.me).toEqual({
-      email,
-      id: user.id
-    })
+
+    expect(response.data.me).toBeNull()
   })
 })
 

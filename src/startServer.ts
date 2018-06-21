@@ -1,3 +1,5 @@
+import "reflect-metadata"
+import "dotenv/config"
 import { GraphQLServer } from "graphql-yoga"
 import { createTypeormConnection } from "./utils/createTypeormConnection"
 import session from "express-session"
